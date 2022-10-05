@@ -70,7 +70,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: {context}/Dockerfile.dev
+          file: ./Dockerfile.dev
           build-args: VARIANT=8-apache-bullseye
           tags: ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:8-apache-bullseye, ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:8-apache-bullseye-${{ steps.time.outputs.time }}
 
@@ -78,6 +78,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: {context}/Dockerfile.dev
+          file: ./Dockerfile.dev
           build-args: VARIANT=8.1-apache-bullseye
           tags: ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:8.1-apache-bullseye, ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:8.1-apache-bullseye-${{ steps.time.outputs.time }}
