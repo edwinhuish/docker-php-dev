@@ -7,10 +7,10 @@ on:
   # but only for the main branch
   push:
     branches:
-      - master
+      - dev
   pull_request:
     branches:
-      - master
+      - dev
 
 env:
   # Use docker.io for Docker Hub if empty
