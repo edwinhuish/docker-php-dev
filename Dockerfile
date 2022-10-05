@@ -50,3 +50,9 @@ RUN rm -rf /tmp/library-scripts
 # 修改 apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
   ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
