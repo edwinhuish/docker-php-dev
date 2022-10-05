@@ -6,7 +6,6 @@ FROM edwinhuish/docker-php:${VARIANT}
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
   apt-get -y install \
   ffmpeg \
-  libavif-dev \
   g++ \
   libbz2-dev \
   libc-client-dev \
@@ -53,7 +52,6 @@ RUN docker-php-ext-install -j$(nproc) \
   docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install -j$(nproc) gd && \
   PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install -j$(nproc) imap && \
   CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install sockets && \
-  pecl install xmlrpc-1.0.0RC3 && docker-php-ext-enable xmlrpc && \
   pecl install mongodb && docker-php-ext-enable mongodb && \
   pecl install redis && docker-php-ext-enable redis && \
   pecl install swoole && docker-php-ext-enable swoole && \
