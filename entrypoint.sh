@@ -1,14 +1,23 @@
 #!/bin/sh
 set -e
 
-user_name=${USERNAME:=www}
-group_name="$(id -gn $user_name)"
-user_uid=${USER_UID:=1000}
-user_gid=${USER_GID:=1000}
+: ${USERNAME:=www}
+export USERNAME
+: GROUPNAME="$(id -gn $USERNAME)"
+export GROUPNAME
 
-usermod --uid $user_uid $user_name
-groupmod --gid $user_gid ${group_name}
-usermod --gid $user_gid $user_name
+: ${USER_UID:=1000}
+export USER_UID
+: ${USER_GID:=1000}
+export USER_GID
+
+: ${APACHE_RUN_USER:=$USERNAME}
+export APACHE_RUN_USER
+: ${APACHE_RUN_GROUP:=$GROUPNAME}
+export APACHE_RUN_GROUP
+
+usermod -u $USER_UID $USERNAME
+groupmod -g $USER_GID $GROUPNAME
 
 if [ -d /entrypoint.d ]; then
   for i in /entrypoint.d/*.sh; do
