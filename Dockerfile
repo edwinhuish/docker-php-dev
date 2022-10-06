@@ -19,15 +19,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
   usermod -aG www-data ${USERNAME} && \
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# 安装 xdebug
-RUN yes | pecl install xdebug && \
-  echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
-  echo "xdebug.mode = debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-  echo "xdebug.start_with_request = no" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-  echo "xdebug.client_host = localhost" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-  echo "xdebug.client_port = 9003" >> /usr/local/etc/php/conf.d/xdebug.ini && \
-  rm -rf /tmp/pear
-
 # 安装 composer
 RUN curl -sSL https://getcomposer.org/installer | php && \
   chmod +x composer.phar && \
