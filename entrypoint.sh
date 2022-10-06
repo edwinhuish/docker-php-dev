@@ -10,4 +10,4 @@ usermod --uid $user_uid $user_name
 groupmod --gid $user_gid ${group_name}
 usermod --gid $user_gid $user_name
 
-exec "$@"
+exec docker-php-entrypoint "$@"
