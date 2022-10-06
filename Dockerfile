@@ -2,6 +2,16 @@
 ARG VARIANT=7-apache-bullseye
 FROM edwinhuish/docker-php:${VARIANT}
 
+
+# 安装 xdebug
+RUN yes | pecl install xdebug && \
+  echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
+  echo "xdebug.mode = debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+  echo "xdebug.start_with_request = no" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+  echo "xdebug.client_host = localhost" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+  echo "xdebug.client_port = 9003" >> /usr/local/etc/php/conf.d/xdebug.ini && \
+  rm -rf /tmp/pear
+
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
   apt-get -y install \
