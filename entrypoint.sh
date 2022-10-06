@@ -10,4 +10,13 @@ usermod --uid $user_uid $user_name
 groupmod --gid $user_gid ${group_name}
 usermod --gid $user_gid $user_name
 
+if [ -d /entrypoint.d ]; then
+  for i in /entrypoint.d/*.sh; do
+    if [ -r $i ]; then
+      /bin/sh $i
+    fi
+  done
+  unset i
+fi
+
 exec "$@"
