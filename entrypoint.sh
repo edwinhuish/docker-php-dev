@@ -28,4 +28,8 @@ if [ -d /entrypoint.d ]; then
   unset i
 fi
 
+# 链式调用下一个 shell
 exec "$@"
+
+# 最后执行一次启动 apache
+apache2ctl start
