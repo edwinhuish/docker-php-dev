@@ -2,6 +2,9 @@
 ARG VARIANT=7-apache-bullseye
 FROM php:${VARIANT}
 
+# Avoid warnings by switching to noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Copy library scripts to execute
 COPY library-scripts/*.sh library-scripts/*.env /tmp/library-scripts/
 
@@ -13,7 +16,7 @@ ARG UPGRADE_PACKAGES="true"
 ARG USERNAME=www
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
+RUN apt-get update && \
   bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" && \
   apt-get -y install --no-install-recommends lynx && \
   usermod -aG www-data ${USERNAME} && \
