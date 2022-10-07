@@ -3,7 +3,7 @@ set -e
 
 : ${USERNAME:=www}
 export USERNAME
-: GROUPNAME="$(id -gn $USERNAME)"
+GROUPNAME="$(id -gn $USERNAME)"
 export GROUPNAME
 
 : ${USER_UID:=1000}
@@ -19,8 +19,8 @@ export APACHE_RUN_GROUP
 usermod -u $USER_UID $USERNAME
 groupmod -g $USER_GID $GROUPNAME
 
-if [ -d /entrypoint.d ]; then
-  for i in /entrypoint.d/*.sh; do
+if [ -d /docker-entrypoint.d ]; then
+  for i in /docker-entrypoint.d/*.sh; do
     if [ -r $i ]; then
       /bin/sh $i
     fi

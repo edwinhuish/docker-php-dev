@@ -46,7 +46,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
   ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh", "docker-php-entrypoint" ]
+ENTRYPOINT [ "/docker-entrypoint.sh", "docker-php-entrypoint" ]
