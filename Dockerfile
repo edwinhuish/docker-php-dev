@@ -81,5 +81,5 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /tmp/* /var/tmp/*
 
-# 修改 SSL 最低要求
+# 修改 SSL  最低要求
 RUN sed -i 's|^MinProtocol = TLSv1.*$|MinProtocol = TLSv1\.0|' /etc/ssl/openssl.cnf
