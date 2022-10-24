@@ -48,17 +48,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
   rm -rf /tmp/* /var/tmp/*
 
 RUN docker-php-ext-install -j$(nproc) \
-  mysqli pdo_mysql \
-  opcache \
-  pdo_pgsql \
-  pgsql \
-  soap \
-  xsl \
-  intl \
-  zip \
-  pcntl \
-  iconv \
-  && \
+  mysqli pdo_mysql opcache pdo_pgsql pgsql soap xsl intl zip pcntl iconv bcmath && \
   docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install -j$(nproc) gd && \
   PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install -j$(nproc) imap && \
   CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install sockets && \
