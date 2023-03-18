@@ -13,8 +13,8 @@ set -e
 
 INSTALL_ZSH=${1:-"true"}
 USERNAME=${2:-"automatic"}
-USER_UID=${3:-"automatic"}
-USER_GID=${4:-"automatic"}
+PUID=${3:-"automatic"}
+PGID=${4:-"automatic"}
 UPGRADE_PACKAGES=${5:-"true"}
 INSTALL_OH_MYS=${6:-"true"}
 ADD_NON_FREE_PACKAGES=${7:-"false"}
@@ -46,8 +46,8 @@ if [ "${USERNAME}" = "auto" ] || [ "${USERNAME}" = "automatic" ]; then
   fi
 elif [ "${USERNAME}" = "none" ]; then
   USERNAME=root
-  USER_UID=0
-  USER_GID=0
+  PUID=0
+  PGID=0
 fi
 
 # Load markers to see which steps have already run
@@ -182,25 +182,25 @@ fi
 group_name="${USERNAME}"
 if id -u ${USERNAME} >/dev/null 2>&1; then
   # User exists, update if needed
-  if [ "${USER_GID}" != "automatic" ] && [ "$USER_GID" != "$(id -g $USERNAME)" ]; then
+  if [ "${PGID}" != "automatic" ] && [ "$PGID" != "$(id -g $USERNAME)" ]; then
     group_name="$(id -gn $USERNAME)"
-    groupmod --gid $USER_GID ${group_name}
-    usermod --gid $USER_GID $USERNAME
+    groupmod --gid $PGID ${group_name}
+    usermod --gid $PGID $USERNAME
   fi
-  if [ "${USER_UID}" != "automatic" ] && [ "$USER_UID" != "$(id -u $USERNAME)" ]; then
-    usermod --uid $USER_UID $USERNAME
+  if [ "${PUID}" != "automatic" ] && [ "$PUID" != "$(id -u $USERNAME)" ]; then
+    usermod --uid $PUID $USERNAME
   fi
 else
   # Create user
-  if [ "${USER_GID}" = "automatic" ]; then
+  if [ "${PGID}" = "automatic" ]; then
     groupadd $USERNAME
   else
-    groupadd --gid $USER_GID $USERNAME
+    groupadd --gid $PGID $USERNAME
   fi
-  if [ "${USER_UID}" = "automatic" ]; then
+  if [ "${PUID}" = "automatic" ]; then
     useradd -s /bin/bash --gid $USERNAME -m $USERNAME
   else
-    useradd -s /bin/bash --uid $USER_UID --gid $USERNAME -m $USERNAME
+    useradd -s /bin/bash --uid $PUID --gid $USERNAME -m $USERNAME
   fi
 fi
 
