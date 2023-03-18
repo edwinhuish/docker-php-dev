@@ -2,7 +2,7 @@
 
 XDEBUG_VERSION=xdebug
 
-PHP_VERSION=$(php -v |grep -Eow '^PHP [^ ]+' |gawk '{ print $2 }')
+PHP_VERSION=`php -v |grep -Eow '^PHP [^ ]+' |gawk '{ print $2 }'`
 
 echo "PHP_VERSION is: ${PHP_VERSION} ..........."
 if [[ $PHP_VERSION =~ ^7.* ]] ; then XDEBUG_VERSION=xdebug-3.1.5 ; fi
