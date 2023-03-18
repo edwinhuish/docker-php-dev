@@ -14,10 +14,10 @@ ARG INSTALL_ZSH="true"
 ARG UPGRADE_PACKAGES="true"
 # Install needed packages and setup non-root user. Use a separate RUN statement to add your own dependencies.
 ARG USERNAME=www
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG PUID=1000
+ARG PGID=$PUID
 RUN apt-get update && \
-  bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" && \
+  bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${PUID}" "${PGID}" "${UPGRADE_PACKAGES}" "true" "true" && \
   apt-get -y install --no-install-recommends lynx && \
   usermod -aG www-data ${USERNAME} && \
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
@@ -27,7 +27,7 @@ RUN curl -sSL https://getcomposer.org/installer | php && \
   chmod +x composer.phar && \
   mv composer.phar /usr/local/bin/composer && \
   rm -f /etc/profile.d/01-composer-env.sh && \
-  echo 'export PATH="$PATH:$HOME/.composer/vendor/bin\"' >/etc/profile.d/01-composer-env.sh && \
+  echo 'export PATH="\$PATH:\$HOME/.composer/vendor/bin\"' >/etc/profile.d/01-composer-env.sh && \
   chmod +x /etc/profile.d/01-composer-env.sh
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
