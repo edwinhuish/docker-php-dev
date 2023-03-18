@@ -2,9 +2,13 @@
 ARG VARIANT=7-apache-bullseye
 FROM edwinhuish/docker-php:${VARIANT}
 
+ARG XDEBUG_VERSION=xdebug
 
 # 安装 xdebug
-RUN  if [[ $VARIANT =~ ^7.* ]] ; then yes | pecl install xdebug-3.1.5 ; else yes | pecl install xdebug ; fi && \
+RUN  echo "VARIANT is: ${VARIANT} ..........." && \
+  if [[ $VARIANT =~ ^7.* ]] ; then XDEBUG_VERSION=xdebug-3.1.5 ; fi && \
+  echo "Begin install ${XDEBUG_VERSION} ..........." && \
+  yes | pecl install ${XDEBUG_VERSION} && \
   echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
   echo "xdebug.mode = debug" >> /usr/local/etc/php/conf.d/xdebug.ini && \
   echo "xdebug.start_with_request = no" >> /usr/local/etc/php/conf.d/xdebug.ini && \
