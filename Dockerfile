@@ -5,7 +5,10 @@ FROM edwinhuish/docker-php:${VARIANT}
 COPY ./scripts/* /tmp/scripts/
 
 # 遍历文件夹，并按照文件名排序，并依次安装script
-RUN find /tmp/scripts/ -type f -name "*.sh" -print0 | sort -z | xargs -0 -I {} bash -c 'chmod +x "{}" && "{}"'; \
+RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
+  chmod +x $script; \
+  bash -c $script; \
+  done && \
   apt-get autoremove --purge -y && \
   apt-get autoclean -y && \
   apt-get clean -y && \
