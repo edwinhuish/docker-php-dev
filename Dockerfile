@@ -2,11 +2,11 @@
 ARG VARIANT=7-apache-bullseye
 FROM edwinhuish/docker-php:${VARIANT}
 
-ARG PHP_VERSION=$(php -v |grep -Eow '^PHP [^ ]+' |gawk '{ print $2 }')
 ARG XDEBUG_VERSION=xdebug
 
 # 安装 xdebug
-RUN  echo "PHP_VERSION is: ${PHP_VERSION} ..........." && \
+RUN  PHP_VERSION=$(php -v |grep -Eow '^PHP [^ ]+' |gawk '{ print $2 }') && \
+  echo "PHP_VERSION is: ${PHP_VERSION} ..........." && \
   if [[ $PHP_VERSION =~ ^7.* ]] ; then XDEBUG_VERSION=xdebug-3.1.5 ; fi && \
   echo "Begin install ${XDEBUG_VERSION} ..........." && \
   yes | pecl install ${XDEBUG_VERSION} && \
