@@ -50,7 +50,6 @@ RUN docker-php-ext-install -j$(nproc) \
   CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install sockets && \
   pecl install mongodb && docker-php-ext-enable mongodb && \
   pecl install redis && docker-php-ext-enable redis && \
-  pecl install swoole && docker-php-ext-enable swoole && \
   yes '' | pecl install imagick && docker-php-ext-enable imagick
 
 # MSSQL
