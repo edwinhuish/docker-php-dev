@@ -4,10 +4,10 @@ export DEBIAN_FRONTEND=noninteractive
 
 VERSION=
 
-PHP_VERSION=$(php -v |grep -Eow '^PHP [^ ]+' |gawk '{ print $2 }')
+PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
 
 echo "PHP_VERSION is: ${PHP_VERSION} ..........."
-if [[ $PHP_VERSION =~ ^7.* ]] ; then 
+if [[ "$PHP_VERSION" == 7* ]] ; then 
   VERSION="-5.8.0" ; 
 fi
 
