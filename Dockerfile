@@ -6,7 +6,7 @@ COPY ./scripts/* /tmp/scripts/
 
 # 遍历安装script
 RUN SCRIPTS=`ls /tmp/scripts/` && \
-  for scipt in $SCRIPTS; do bash $scipt; done; && \
+  for scipt in $SCRIPTS; do bash $scipt; done; \
   apt-get autoremove --purge -y && apt-get autoclean -y && apt-get clean -y && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /tmp/* /var/tmp/*
