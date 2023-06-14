@@ -38,7 +38,7 @@ ENV NVM_SYMLINK_CURRENT=true \
 RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" && \
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# Remove library scripts for final image
+# Remove library scripts for final image 
 RUN rm -rf /tmp/library-scripts
 
 # 修改 apache
