@@ -14,4 +14,4 @@ RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
   apt-get autoclean -y && \
   apt-get clean -y && \
   rm -rf /var/lib/apt/lists/* && \
-  rm -rf /tmp/* /var/tmp/* || true
+  rm -rf /tmp/* /var/tmp/*
