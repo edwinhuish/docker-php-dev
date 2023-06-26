@@ -8,12 +8,12 @@ COPY ./scripts/* /tmp/scripts/
 RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
   echo "\n\n========================== Processing $script ==========================\n\n"; \
   chmod +x $script; \
-  $script; \
-  if [ $? -ne 0 ]; then \
-  echo "SUCCESS: $?"; \
-  exit $?; \
+  cmd $$script; \
+  if [ $$? -eq 0 ]; then \
+  echo "SUCCESS: $$?"; \
+  exit $$?; \
   else \
-  echo "FAIL: $?"; \
+  echo "FAIL: $$?"; \
   fi \
   done && \
   apt-get autoremove --purge -y && \
