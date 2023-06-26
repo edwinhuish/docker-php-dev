@@ -5,7 +5,7 @@ FROM edwinhuish/docker-php:${VARIANT}
 COPY ./scripts/* /tmp/scripts/
 
 # 遍历文件夹，并按照文件名排序，并依次安装 script
-RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
+RUN set -e; for script in $(ls /tmp/scripts/*.sh | sort); do \
   echo "\n\n========================== Processing $script ==========================\n\n"; \
   chmod +x $script; \
   $script; \

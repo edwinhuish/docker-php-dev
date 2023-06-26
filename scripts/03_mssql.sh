@@ -2,21 +2,21 @@
 
 MSSQL_VERSION=
 
-PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
+# PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
 
-echo "PHP_VERSION is: ${PHP_VERSION} ..........."
-if [[ "$PHP_VERSION" == 7* ]] ; then 
-  MSSQL_VERSION="-5.8.0" ; 
-fi
+# echo "PHP_VERSION is: ${PHP_VERSION} ..........."
+# if [[ "$PHP_VERSION" == 7* ]] ; then 
+#   MSSQL_VERSION="-5.8.0" ; 
+# fi
 
-curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
+# curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+# curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
-DEBIAN_FRONTEND=noninteractive apt-get update
+# DEBIAN_FRONTEND=noninteractive apt-get update
 
-ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev libgssapi-krb5-2
+# ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev libgssapi-krb5-2
 
-pecl install sqlsrv${MSSQL_VERSION}
+# pecl install sqlsrv${MSSQL_VERSION}
 docker-php-ext-enable sqlsrv
 
 pecl install pdo_sqlsrv${MSSQL_VERSION}
