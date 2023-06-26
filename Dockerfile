@@ -8,16 +8,11 @@ COPY ./scripts/* /tmp/scripts/
 RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
   echo "\n\n========================== Processing $script ==========================\n\n"; \
   chmod +x $script; \
-  $script; \
-  if [ $? -eq 0 ]; then \
-  echo "SUCCESS: $?"; \
-  else \
-  echo "FAIL: $?"; \
-  exit $?; \
+  $script || exit 1; \
   fi \
   done && \
   apt-get autoremove --purge -y && \
   apt-get autoclean -y && \
   apt-get clean -y && \
   rm -rf /var/lib/apt/lists/* && \
-  rm -rf /tmp/* /var/tmp/*
+  rm -rf /tmp/* /var/tmp/* || true
