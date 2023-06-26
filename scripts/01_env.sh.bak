@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
+DEBIAN_FRONTEND=noninteractive apt-get update
 
-apt-get update
-
-apt-get -y install \
+DEBIAN_FRONTEND=noninteractive apt-get -y install \
   ffmpeg \
   g++ \
   libbz2-dev \

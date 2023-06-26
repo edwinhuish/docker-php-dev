@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
-
 MSSQL_VERSION=
 
 PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
@@ -14,7 +12,7 @@ fi
 curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
 
-apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get update
 
 ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev libgssapi-krb5-2
 
