@@ -2,13 +2,13 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-VERSION=
+MSSQL_VERSION=
 
 PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
 
 echo "PHP_VERSION is: ${PHP_VERSION} ..........."
 if [[ "$PHP_VERSION" == 7* ]] ; then 
-  VERSION="-5.8.0" ; 
+  MSSQL_VERSION="-5.8.0" ; 
 fi
 
 curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
@@ -18,8 +18,11 @@ apt-get update
 
 ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev libgssapi-krb5-2
 
-pecl install sqlsrv${VERSION} && docker-php-ext-enable sqlsrv
-pecl install pdo_sqlsrv${VERSION} && docker-php-ext-enable pdo_sqlsrv
+pecl install sqlsrv${MSSQL_VERSION}
+docker-php-ext-enable sqlsrv
+
+pecl install pdo_sqlsrv${MSSQL_VERSION}
+docker-php-ext-enable pdo_sqlsrv
 
 rm -f /etc/profile.d/01-mssql-env.sh
 echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >/etc/profile.d/01-mssql-env.sh

@@ -9,6 +9,7 @@ RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
   echo "\n\n========================== Processing $script ==========================\n\n"; \
   chmod +x $script; \
   $script; \
+  if [ $? -ne 0 ]; then exit $? fi \
   done && \
   apt-get autoremove --purge -y && \
   apt-get autoclean -y && \
