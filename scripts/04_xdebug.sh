@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo -e "\n\n========================== INSTALL XDEBUG ==========================\n\n"
+
 XDEBUG_VERSION=xdebug
 
 PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')

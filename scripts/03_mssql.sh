@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo -e "\n\n========================== INSTALL MSSQL driver for PHP ==========================\n\n"
+
 export DEBIAN_FRONTEND=noninteractive
 
 VERSION=
@@ -26,4 +28,4 @@ echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >/etc/profile.d/01-mssql-env.s
 chmod +x /etc/profile.d/01-mssql-env.sh
 
 # 修改 SSL  最低要求
-RUN sed -i 's|^MinProtocol = TLSv1.*$|MinProtocol = TLSv1\.0|' /etc/ssl/openssl.cnf
+sed -i 's|^MinProtocol = TLSv1.*$|MinProtocol = TLSv1\.0|' /etc/ssl/openssl.cnf

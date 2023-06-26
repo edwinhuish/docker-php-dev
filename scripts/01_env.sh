@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo -e "\n\n========================== INSTALL LINUX DEPs ==========================\n\n"
+
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get update
