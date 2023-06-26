@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 XDEBUG_VERSION=xdebug
 
 PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')

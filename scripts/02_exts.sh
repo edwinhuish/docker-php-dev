@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 docker-php-ext-install -j$(nproc) mysqli pdo_mysql opcache pdo_pgsql pgsql soap xsl intl zip pcntl iconv bcmath
 
 docker-php-ext-configure gd --with-freetype --with-jpeg 
