@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo -e "\n\n========================== INSTALL MSSQL driver for PHP ==========================\n\n"
-
 export DEBIAN_FRONTEND=noninteractive
 
 VERSION=

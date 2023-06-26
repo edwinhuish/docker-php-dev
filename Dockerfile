@@ -6,8 +6,8 @@ COPY ./scripts/* /tmp/scripts/
 
 # 遍历文件夹，并按照文件名排序，并依次安装 script
 RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
-  chmod +x $script; \
-  bash -c $script; \
+  echo -e "\n\n========================== Processing $script ==========================\n\n"; \
+  source "$script"; \
   done && \
   apt-get autoremove --purge -y && \
   apt-get autoclean -y && \
