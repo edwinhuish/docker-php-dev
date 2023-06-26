@@ -15,12 +15,13 @@ curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/source
 
 DEBIAN_FRONTEND=noninteractive apt-get update
 
-ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev libgssapi-krb5-2
+ACCEPT_EULA=Y apt-get install -y msodbcsql18 mssql-tools18 unixodbc-dev
 
-pecl install sqlsrv${MSSQL_VERSION}
+pecl install sqlsrv${MSSQL_VERSION} pdo_sqlsrv${MSSQL_VERSION} || \
+apt-get install -y --allow-downgrades odbcinst=2.3.7 odbcinst1debian2=2.3.7 unixodbc=2.3.7 unixodbc-dev=2.3.7 && \
+pecl install sqlsrv${MSSQL_VERSION} pdo_sqlsrv${MSSQL_VERSION}
+
 docker-php-ext-enable sqlsrv
-
-pecl install pdo_sqlsrv${MSSQL_VERSION}
 docker-php-ext-enable pdo_sqlsrv
 
 rm -f /etc/profile.d/01-mssql-env.sh
