@@ -27,7 +27,7 @@ RUN curl -sSL https://getcomposer.org/installer | php && \
   chmod +x composer.phar && \
   mv composer.phar /usr/local/bin/composer && \
   rm -f /etc/profile.d/01-composer-env.sh && \
-  echo 'export PATH="\$PATH:\$HOME/.composer/vendor/bin\"' >/etc/profile.d/01-composer-env.sh && \
+  echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >/etc/profile.d/01-composer-env.sh && \
   chmod +x /etc/profile.d/01-composer-env.sh
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
