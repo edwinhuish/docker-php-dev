@@ -40,6 +40,8 @@ if [ "${PUID}" != "automatic" ] && [ "$PUID" != "$OLD_UID" ]; then
 
 fi
 
+chown $USERNAME:$GROUPNAME /usr/local/etc/php/conf-custom.d -R
+
 if [ -d /docker-entrypoint.d ]; then
   for i in /docker-entrypoint.d/*.sh; do
     if [ -r $i ]; then

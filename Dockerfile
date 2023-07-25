@@ -45,6 +45,8 @@ RUN rm -rf /tmp/library-scripts
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
   ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
+ENV PHP_INI_SCAN_DIR=:/usr/local/etc/php/conf-custom.d
+RUN mkdir /usr/local/etc/php/conf-custom.d
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
