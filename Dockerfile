@@ -22,14 +22,6 @@ RUN apt-get update && \
   usermod -aG www-data ${USERNAME} && \
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# 安装 composer
-RUN curl -sSL https://getcomposer.org/installer | php && \
-  chmod +x composer.phar && \
-  mv composer.phar /usr/local/bin/composer && \
-  rm -f /etc/profile.d/01-composer-env.sh && \
-  echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >/etc/profile.d/01-composer-env.sh && \
-  chmod +x /etc/profile.d/01-composer-env.sh
-
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="lts/*"
 ENV NVM_DIR=/usr/local/share/nvm
@@ -38,9 +30,6 @@ ENV NVM_SYMLINK_CURRENT=true \
 RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}" && \
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# Remove library scripts for final image 
-RUN rm -rf /tmp/library-scripts
-
 # 修改 apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
   ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
@@ -48,7 +37,21 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 ENV PHP_INI_SCAN_DIR=:/usr/local/etc/php/conf-custom.d
 RUN mkdir /usr/local/etc/php/conf-custom.d
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+COPY ./scripts/* /tmp/scripts/
 
-ENTRYPOINT [ "/docker-entrypoint.sh", "docker-php-entrypoint" ]
+# 遍历文件夹，按照文件名排序，依次执行 script
+RUN for script in $(ls /tmp/scripts/*.sh | sort); do \
+  echo "\n\n========================== Processing $script ==========================\n\n"; \
+  chmod +x $script; \
+  $script || exit 1; \
+  done && \
+  apt-get autoremove --purge -y && \
+  apt-get autoclean -y && \
+  apt-get clean -y && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /tmp/* /var/tmp/*
+
+COPY entry.sh /entry.sh
+RUN chmod +x /entry.sh
+
+ENTRYPOINT [ "/entry.sh", "docker-php-entrypoint" ]
