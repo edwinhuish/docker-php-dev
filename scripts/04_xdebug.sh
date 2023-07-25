@@ -21,17 +21,22 @@ xdebug.client_host=localhost
 xdebug.client_port=9003
 EOF
 
+# 将配置文件修改为任何人可读写
+chmod a+rw $XDEBUG_INI_FILE
+
 cat > /usr/local/bin/xdebug_mode <<EOF
 #!/bin/bash
 
 XDEBUG_MODE=\${1:-'develop,debug'}
+XDEBUG_INI_FILE=/usr/local/etc/php/conf.d/xdebug.ini
 
-if grep -q '^xdebug.mode' "$XDEBUG_INI_FILE" ; then 
-  cp "$XDEBUG_INI_FILE" /tmp/xdebug_tmp.ini
+if grep -q '^xdebug.mode' "\$XDEBUG_INI_FILE" ; then 
+  cp "\$XDEBUG_INI_FILE" /tmp/xdebug_tmp.ini
   sed -i "s/^xdebug\.mode.*/xdebug\.mode=\${XDEBUG_MODE}/" /tmp/xdebug_tmp.ini
-  cat /tmp/xdebug_tmp.ini > "$XDEBUG_INI_FILE"
+  cat /tmp/xdebug_tmp.ini > "\$XDEBUG_INI_FILE"
+  rm /tmp/xdebug_tmp.ini
 else 
-  echo "xdebug.mode=\${XDEBUG_MODE}" >> "$XDEBUG_INI_FILE"
+  echo "xdebug.mode=\${XDEBUG_MODE}" >> "\$XDEBUG_INI_FILE"
 fi
 EOF
 
