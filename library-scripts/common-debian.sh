@@ -195,13 +195,26 @@ else
   if [ "${PGID}" = "automatic" ]; then
     groupadd $USERNAME
   else
-    groupadd --gid $PGID $USERNAME
+    ################# 修正（开始） #################
+    if getent group $PGID > /dev/null 2>&1; then
+      echo "已存在 GID， 修改主GID"
+      # usermod -g $PGID $USERNAME
+      group_name=`getent group $PGID | awk -F ':' '{print $1}'`
+    else
+      groupadd --gid $PGID $group_name
+    fi
   fi
   if [ "${PUID}" = "automatic" ]; then
-    useradd -s /bin/bash --gid $USERNAME -m $USERNAME
+    useradd -s /bin/bash --gid $PGID -m $USERNAME
   else
-    useradd -s /bin/bash --uid $PUID --gid $USERNAME -m $USERNAME
+    if egrep "^$USERNAME:" /etc/passwd > /dev/null 2>&1; then
+      echo "存在用户 $USERNAME, 跳过创建用户"
+    else 
+      echo "不存在用户 $USERNAME，$group_name"
+      useradd -s /bin/bash --uid $PUID --gid $PGID -m $USERNAME
+    fi
   fi
+  ################# 修正（结束） #################
 fi
 
 # Add sudo support for non-root user
