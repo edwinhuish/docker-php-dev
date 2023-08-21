@@ -2,6 +2,10 @@
 ARG VARIANT=7-apache-bullseye
 FROM php:${VARIANT}
 
+ENV PHP_MODE="apache"
+
+RUN  if [[ "$VARIANT" == *"fpm"* ]]; then PHP_MODE="fpm"; fi
+
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -31,8 +35,10 @@ RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${U
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # 修改 apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
-  ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+RUN  if [ "$PHP_MODE" = "apache" ]; then \
+  echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
+  ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load; \
+  fi
 
 ENV PHP_INI_SCAN_DIR=:/usr/local/etc/php/conf-custom.d
 RUN mkdir /usr/local/etc/php/conf-custom.d
