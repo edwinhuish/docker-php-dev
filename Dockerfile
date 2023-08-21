@@ -35,7 +35,7 @@ RUN bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${U
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # 修改 apache
-RUN  if [ "$PHP_MODE" = "apache" ]; then \
+RUN  if [ "$PHP_MODE" == "apache" ]; then \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
   ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load; \
   fi
