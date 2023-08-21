@@ -36,13 +36,12 @@ fi
 
 chown $USERNAME:$GROUPNAME /usr/local/etc/php/conf-custom.d -R
 
-if [ -d /docker-entrypoint.d ]; then
-  for i in /docker-entrypoint.d/*.sh; do
-    if [ -r $i ]; then
-      /bin/sh $i
-    fi
+if [ -d /entry.d ]; then
+  for script in $(ls /entry.d/*.sh | sort); do
+    echo "\n\n========================== Processing $script ==========================\n\n";
+    chmod +x $script;
+    $script || exit 1;
   done
-  unset i
 fi
 
 # 链式调用下一个 shell
