@@ -2,6 +2,8 @@
 ARG VARIANT=7-apache-bullseye
 FROM php:${VARIANT}
 
+ARG VARIANT=7-apache-bullseye
+
 ENV PHP_MODE="apache"
 
 RUN if echo "$VARIANT" | grep -q "fpm"; then \
