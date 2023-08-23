@@ -4,7 +4,12 @@ FROM php:${VARIANT}
 
 ENV PHP_MODE="apache"
 
-RUN if echo "$PHP_MODE" | grep -q "fpm"; then export PHP_MODE="fpm"; fi
+RUN if echo "$PHP_MODE" | grep -q "fpm"; then \
+  echo "检测到 fpm 环境。。。"; \
+  export PHP_MODE="fpm"; \
+  else \
+  echo "非 fpm 环境。。。" \
+  fi
 
 # Avoid warnings by switching to noninteractive
 # ENV DEBIAN_FRONTEND=noninteractive
