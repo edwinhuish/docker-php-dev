@@ -4,7 +4,8 @@ set -e
 
 DEBIAN_FRONTEND=noninteractive apt-get update
 
-DEBIAN_FRONTEND=noninteractive apt-get -y install \
+DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+  lynx \
   ffmpeg \
   g++ \
   libbz2-dev \

@@ -16,7 +16,7 @@ if [ "${PGID}" != "automatic" ] && [ "$PGID" != "$OLD_GID" ]; then
 
   echo "修改 GID: $OLD_GID => $PGID"
 
-  if getent group $PGID > /dev/null 2>&1; then
+  if getent group $PGID >/dev/null 2>&1; then
     echo "已存在 GID， 修改主GID"
     usermod -g $PGID $USERNAME
   else
@@ -34,12 +34,10 @@ if [ "${PUID}" != "automatic" ] && [ "$PUID" != "$OLD_UID" ]; then
 
 fi
 
-chown $USERNAME:$GROUPNAME /usr/local/etc/php/conf-custom.d -R
-
 if [ -d /entry.d ]; then
   for script in $(ls /entry.d/*.sh | sort); do
-    echo "\n\n========================== Processing $script ==========================\n\n";
-    /bin/bash $script || exit 1;
+    echo "\n\n========================== Processing $script ==========================\n\n"
+    /bin/bash $script || exit 1
   done
 fi
 
