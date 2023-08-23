@@ -8,7 +8,7 @@ ENV PHP_MODE="apache"
 
 RUN if echo "$VARIANT" | grep -q "fpm"; then \
   echo "检测到 fpm 环境。。。"; \
-  export PHP_MODE="fpm"; \
+  PHP_MODE="fpm"; \
   else \
   echo "非 fpm 环境。。。"; \
   fi
