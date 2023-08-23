@@ -15,7 +15,7 @@ fi
 
 sed -i "s/www-data/${USERNAME}/g" /usr/local/etc/php-fpm.d/www.conf
 
-cat >/usr/local/bin/phpctrl <<EOF
+cat >/usr/local/bin/phpctl <<EOF
 #!/bin/bash
 
 EPACE='        '
@@ -61,4 +61,4 @@ done
 
 EOF
 
-chmod +x /usr/local/bin/phpctrl
+chmod +x /usr/local/bin/phpctl

@@ -13,7 +13,7 @@ echo "Add ServerName to apache2.conf 。。。。"
 echo "ServerName localhost" >>/etc/apache2/apache2.conf
 ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
-cat >/usr/local/bin/phpctrl <<EOF
+cat >/usr/local/bin/phpctl <<EOF
 #!/bin/bash
 
 EPACE='        '
@@ -59,4 +59,4 @@ done
 
 EOF
 
-chmod +x /usr/local/bin/phpctrl
+chmod +x /usr/local/bin/phpctl
