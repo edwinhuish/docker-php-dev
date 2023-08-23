@@ -4,7 +4,7 @@ FROM php:${VARIANT}
 
 ENV PHP_MODE="apache"
 
-RUN if [[ "$VARIANT" == *"fpm"* ]]; then export PHP_MODE="fpm"; fi
+RUN if echo "$PHP_MODE" | grep -q "fpm"; then export PHP_MODE="fpm"; fi
 
 # Avoid warnings by switching to noninteractive
 # ENV DEBIAN_FRONTEND=noninteractive
