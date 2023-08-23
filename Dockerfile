@@ -2,9 +2,10 @@
 ARG VARIANT=7-apache-bullseye
 FROM php:${VARIANT}
 
-ENV PHP_MODE="apache"
+ARG PHP_MODE="apache"
+ENV PHP_MODE=${PHP_MODE}
 
-RUN  if [[ "$VARIANT" == *"fpm"* ]]; then PHP_MODE="fpm"; fi
+RUN if [[ "$VARIANT" == *"fpm"* ]]; then export PHP_MODE="fpm"; fi
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
