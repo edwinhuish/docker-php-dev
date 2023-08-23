@@ -39,10 +39,12 @@ chown $USERNAME:$GROUPNAME /usr/local/etc/php/conf-custom.d -R
 if [ -d /entry.d ]; then
   for script in $(ls /entry.d/*.sh | sort); do
     echo "\n\n========================== Processing $script ==========================\n\n";
-    chmod +x $script;
-    $script || exit 1;
+    /bin/bash $script || exit 1;
   done
 fi
 
 # 链式调用下一个 shell
-exec "$@"
+/bin/bash "$@"
+
+# 使用 exec 会导致后面的 script 作为主进程，导致 entry.d 的script都在它之下
+# exec "$@"
