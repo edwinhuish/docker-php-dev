@@ -2,8 +2,7 @@
 ARG VARIANT=7-apache-bullseye
 FROM php:${VARIANT}
 
-ARG PHP_MODE="apache"
-ENV PHP_MODE=${PHP_MODE}
+ENV PHP_MODE="apache"
 
 RUN if [[ "$VARIANT" == *"fpm"* ]]; then export PHP_MODE="fpm"; fi
 
