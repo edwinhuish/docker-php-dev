@@ -4,7 +4,7 @@ FROM php:${VARIANT}
 
 ENV PHP_MODE="apache"
 
-RUN if echo "$PHP_MODE" | grep -q "fpm"; then \
+RUN if echo "$VARIANT" | grep -q "fpm"; then \
   echo "检测到 fpm 环境。。。"; \
   export PHP_MODE="fpm"; \
   else \
