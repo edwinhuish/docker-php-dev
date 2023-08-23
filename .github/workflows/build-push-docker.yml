@@ -82,7 +82,7 @@ jobs:
       - name: Build and push Docker image (${{ matrix.image_tag }})
         uses: docker/build-push-action@v3
         with:
-          push: false
+          push: true
           context: .
           build-args: VARIANT=${{ matrix.image_tag }}
           tags: ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.image_tag }}, ${{ secrets.DOCKER_HUB_USER }}/${{ env.IMAGE_NAME }}:${{ matrix.image_tag }}-${{ steps.time.outputs.time }}
