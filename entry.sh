@@ -1,10 +1,16 @@
 #!/bin/sh
 set -e
 
-: ${USERNAME:=www}
-
 : ${PUID:=1000}
 : ${PGID:=1000}
+
+: ${USERNAME:=www}
+
+OLD_USERNAME=$(id -nu $PUID 2>/dev/null)
+if [ -n "$OLD_USERNAME" ]; then
+  echo "PUID 已存在，使用用户名： $OLD_USERNAME"
+  USERNAME="$OLD_USERNAME"
+fi
 
 if ! egrep "^$USERNAME:" /etc/passwd >/dev/null 2>&1; then
   echo "不存在用户，开始新增：$USERNAME"
@@ -43,8 +49,5 @@ if [ -d /entry.d ]; then
   done
 fi
 
-# 链式调用下一个 shell
-/bin/bash "$@"
-
 # 使用 exec 会导致后面的 script 作为主进程，导致 entry.d 的script都在它之下
-# exec "$@"
+exec "$@"
