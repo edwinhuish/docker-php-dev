@@ -1,0 +1,13 @@
+#!/bin/bash
+
+XDEBUG_MODE=${1:-'develop,debug'}
+XDEBUG_INI_FILE=/usr/local/etc/php/conf.d/xdebug.ini
+
+if grep -q '^xdebug.mode' "$XDEBUG_INI_FILE"; then
+  cp "$XDEBUG_INI_FILE" /tmp/xdebug_tmp.ini
+  sed -i "s/^xdebug\.mode.*/xdebug\.mode=${XDEBUG_MODE}/" /tmp/xdebug_tmp.ini
+  cat /tmp/xdebug_tmp.ini >"$XDEBUG_INI_FILE"
+  rm /tmp/xdebug_tmp.ini
+else
+  echo "xdebug.mode=${XDEBUG_MODE}" >>"$XDEBUG_INI_FILE"
+fi

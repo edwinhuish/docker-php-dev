@@ -24,7 +24,7 @@ ENV PATH=${NVM_DIR}/current/bin:${PATH}
 
 # Copy library scripts to execute
 COPY library-scripts/*.sh library-scripts/*.env /tmp/library-scripts/
-COPY ./scripts/* /tmp/scripts/
+COPY ./scripts /tmp/scripts
 
 RUN apt-get update && \
   bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${PUID}" "${PGID}" "${UPGRADE_PACKAGES}" "true" "true" \
