@@ -63,19 +63,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Get Time
-        id: time
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 8
-          format: "YYYYMMDD-HHmmss"
-
-
       - name: Prepare environment variables
         id: env
         run: |
           IMAGE_NAME=$(echo $GITHUB_REPOSITORY | sed "s#${GITHUB_REPOSITORY_OWNER}/docker-##") 
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          TIME=$(TZ=Asia/Shanghai date +"%Y%m%d-%H%M%S")
+          echo "TIME=${TIME}" >> $GITHUB_OUTPUT
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
@@ -85,4 +79,6 @@ jobs:
           push: true
           context: .
           build-args: VARIANT=${{ matrix.image_tag }}
-          tags: ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}, ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}-${{ steps.time.outputs.time }}
+          tags: |
+            ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}
+            ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}-${{ steps.env.outputs.TIME }}
