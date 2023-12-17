@@ -7,6 +7,18 @@ if [[ "$PHP_VERSION" == 7* ]]; then
   exit 0
 fi
 
-pecl install --configureoptions 'enable-sockets="no" enable-openssl="yes" enable-http2="yes" enable-mysqlnd="no" enable-swoole-json="no" enable-swoole-curl="yes" enable-cares="yes"' swoole
+mkdir -p /usr/src/php/ext/swoole
+
+curl -sfL https://github.com/swoole/swoole-src/archive/master.tar.gz -o swoole.tar.gz
+
+tar xfz swoole.tar.gz --strip-components=1 -C /usr/src/php/ext/swoole
+
+docker-php-ext-configure swoole \
+  --enable-mysqlnd \
+  --enable-swoole-pgsql \
+  --enable-openssl \
+  --enable-sockets --enable-swoole-curl
+
+docker-php-ext-install -j$(nproc) swoole
 
 docker-php-ext-enable swoole
