@@ -3,7 +3,7 @@
 PHP_VERSION=$(php -v | grep "PHP" | awk '{print $2}')
 
 if [[ "$PHP_VERSION" == 7* ]]; then
-  echo "Only install swoole for php >= 8.0 ...."
+  echo "Only install swoole for php >= 8.0, SKIPPING...."
   exit 0
 fi
 
