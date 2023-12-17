@@ -22,3 +22,5 @@ docker-php-ext-configure swoole \
 docker-php-ext-install -j$(nproc) swoole
 
 docker-php-ext-enable swoole
+
+rm swoole.tar.gz
