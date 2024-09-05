@@ -17,6 +17,3 @@ docker-php-ext-enable mongodb
 
 pecl install redis 
 docker-php-ext-enable redis
-
-yes '' | pecl install imagick 
-docker-php-ext-enable imagick
