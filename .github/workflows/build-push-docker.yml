@@ -54,14 +54,12 @@ jobs:
 
       - name: Prepare environment variables
         id: env
-        environment:
-          IMAGE_TAG: ${{ matrix.image_tag }}
         run: |
           IMAGE_NAME=$(echo $GITHUB_REPOSITORY | sed "s#${GITHUB_REPOSITORY_OWNER}/docker-##") 
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
           TIME=$(TZ=Asia/Shanghai date +"%Y%m%d-%H%M%S")
           echo "TIME=${TIME}" >> $GITHUB_OUTPUT
-          SIMPLE_IMAGE_TAG=$(echo $IMAGE_TAG | sed "s#-bullseye##")
+          SIMPLE_IMAGE_TAG=$(echo "${{ matrix.image_tag }}" | sed "s#-bullseye##")
           echo "SIMPLE_IMAGE_TAG=${SIMPLE_IMAGE_TAG}" >> $GITHUB_OUTPUT
 
 
