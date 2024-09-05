@@ -54,11 +54,16 @@ jobs:
 
       - name: Prepare environment variables
         id: env
+        environment:
+          IMAGE_TAG: ${{ matrix.image_tag }}
         run: |
           IMAGE_NAME=$(echo $GITHUB_REPOSITORY | sed "s#${GITHUB_REPOSITORY_OWNER}/docker-##") 
           echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
           TIME=$(TZ=Asia/Shanghai date +"%Y%m%d-%H%M%S")
           echo "TIME=${TIME}" >> $GITHUB_OUTPUT
+          SIMPLE_IMAGE_TAG=$(echo $IMAGE_TAG | sed "s#-bullseye##")
+          echo "SIMPLE_IMAGE_TAG=${SIMPLE_IMAGE_TAG}" >> $GITHUB_OUTPUT
+
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
@@ -69,5 +74,6 @@ jobs:
           context: .
           build-args: VARIANT=${{ matrix.image_tag }}
           tags: |
+            ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ steps.env.outputs.SIMPLE_IMAGE_TAG }}
             ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}
             ${{ secrets.DOCKER_HUB_USER }}/${{ steps.env.outputs.IMAGE_NAME }}:${{ matrix.image_tag }}-${{ steps.env.outputs.TIME }}
