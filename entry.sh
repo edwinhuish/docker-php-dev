@@ -4,7 +4,13 @@ set -e
 : ${PUID:=0}
 : ${PGID:=0}
 : ${USERNAME:=www-data}
+: ${WWWROOT:=/var/www/html}
 
+# replace wwwroot path
+sed -i 's|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|' /etc/apache2/sites-enabled/000-default.conf
+sed -i 's|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|' /etc/apache2/sites-enabled/000-default-ssl.conf
+
+# replace user
 if [ "$PUID" != "0" ] || [ "$PGID" != "0" ]; then
 
     echo "[entry.sh] init with PUID: $PUID; PGID: $PGID; USERNAME: $USERNAME;"

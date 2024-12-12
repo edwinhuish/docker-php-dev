@@ -2,6 +2,11 @@
 ARG VARIANT=7-apache-bullseye
 FROM edwinhuish/php-dev:${VARIANT}
 
+ENV USERNAME=www
+ENV PUID=0
+ENV PGID=$PUID
+ENV WWWROOT=/var/www/html
+
 COPY entry.sh /entry.sh
 RUN chmod +x /entry.sh
 
