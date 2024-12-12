@@ -7,8 +7,8 @@ set -e
 : ${WWWROOT:=/var/www/html}
 
 # replace wwwroot path
-sed -i 's|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|' /etc/apache2/sites-enabled/000-default.conf
-sed -i 's|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|' /etc/apache2/sites-enabled/000-default-ssl.conf
+sed -i "s|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|" /etc/apache2/sites-enabled/000-default.conf
+sed -i "s|DocumentRoot /var/www/html|DocumentRoot ${WWWROOT}|" /etc/apache2/sites-enabled/000-default-ssl.conf
 
 # replace user
 if [ "$PUID" != "0" ] || [ "$PGID" != "0" ]; then
